@@ -1,38 +1,40 @@
 name: Banking Portal CI
- 
+
 on:
   push:
     branches:
       - main
- 
+
 jobs:
   build:
     runs-on: ubuntu-latest
- 
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
- 
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
- 
+
       - name: Install Dependencies
         run: npm install
- 
+
       - name: Build React App
         run: npm run build
 
       - name: Build Docker Image
         run: docker build -t banking-portal .
 
-       - name: Login to Docker Hub
-         uses: docker/login-action@v3
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-         with:
-           username:
-             ${{secrets.DOCKER_USERNAME}}
+      - name: Tag Docker Image
+        run: docker tag banking-portal ${{ secrets.DOCKER_USERNAME }}/banking-portal:latest
 
-            password:
-             ${{secrets.DOCKER_PASSWORD}}
+      - name: Push Docker Image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/banking-portal:latest

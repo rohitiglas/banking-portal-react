@@ -13,6 +13,7 @@ const LoginPage = () => {
   return (
     <div style={containerStyle}>
       <form onSubmit={handleSubmit(onSubmit)} style={formStyle}>
+        <h1>Login Page</h1>
         <InputField
           type="email"
           placeholder="Email"

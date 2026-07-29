@@ -34,7 +34,13 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Tag Docker Image
-        run: docker tag banking-portal ${{ secrets.DOCKER_USERNAME }}/banking-portal:latest
+        run:  |
+          docker tag banking-portal ${{ secrets.DOCKER_USERNAME }}/banking-portal:latest
+
+          docker tag banking-portal ${{ secrets.DOCKER_USERNAME }}/banking-portal:v1
 
       - name: Push Docker Image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/banking-portal:latest
+        run:  |
+          docker push banking-portal ${{ secrets.DOCKER_USERNAME }}/banking-portal:latest
+
+          docker push banking-portal ${{ secrets.DOCKER_USERNAME }}/banking-portal:v1

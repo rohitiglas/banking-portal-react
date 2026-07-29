@@ -41,6 +41,6 @@ jobs:
 
       - name: Push Docker Image
         run:  |
-          docker push banking-portal ${{ secrets.DOCKER_USERNAME }}/banking-portal:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/banking-portal:latest
 
-          docker push banking-portal ${{ secrets.DOCKER_USERNAME }}/banking-portal:v1
+          docker push  ${{ secrets.DOCKER_USERNAME }}/banking-portal:v1

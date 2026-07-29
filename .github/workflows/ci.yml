@@ -37,10 +37,10 @@ jobs:
         run:  |
           docker tag banking-portal ${{ secrets.DOCKER_USERNAME }}/banking-portal:latest
 
-          docker tag banking-portal ${{ secrets.DOCKER_USERNAME }}/banking-portal:v1
+          docker tag banking-portal ${{ secrets.DOCKER_USERNAME }}/banking-portal:v2
 
       - name: Push Docker Image
         run:  |
           docker push ${{ secrets.DOCKER_USERNAME }}/banking-portal:latest
 
-          docker push  ${{ secrets.DOCKER_USERNAME }}/banking-portal:v1
+          docker push  ${{ secrets.DOCKER_USERNAME }}/banking-portal:v2

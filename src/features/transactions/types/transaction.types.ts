@@ -8,3 +8,12 @@ export type TransactionProps ={
     status:"success" | "pending" | "failed";
     reviewed?:boolean
 }
+
+export interface TransactionResponse {
+    data: TransactionProps[];
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+    hasNextPage: boolean;
+}

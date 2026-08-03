@@ -25,6 +25,7 @@ export type SignupRequest={
     role:"admin" | "customer";
 }
 export type SignupResponse = {
-  token: string;
+  accessToken: string;
+  refreshToken: string;
   user: User;
 };

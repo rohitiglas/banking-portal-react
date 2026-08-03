@@ -14,6 +14,7 @@ import AnalyticsPage from '../features/analytics/pages/AnalyticsPage.tsx';
 import RoleProtectedRoutes from './RoleProtectedRoutes.tsx';
 import AccessDeniedPage from '../shared/components/AccessDeniedPage.tsx';
 import AuditPage from '../features/audit/pages/AuditPage.tsx';
+import NotificationPage from '../features/notification/pages/NotificationDetailsPage.tsx';
 
 const AppRoutes = () => {
   return (
@@ -28,6 +29,7 @@ const AppRoutes = () => {
       <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
       <Route path="/transactions" element={<ErrorBoundary FallbackComponent={ErrorFallback}><TransactionPage /></ErrorBoundary>} />
       <Route path="/transactions/:id" element={<ErrorBoundary FallbackComponent={ErrorFallback}><TransactionDetailsPage /></ErrorBoundary>} />
+       <Route path="/notifications/:id" element={<ErrorBoundary FallbackComponent={ErrorFallback}><NotificationPage /></ErrorBoundary>} />
       <Route path="/analytics/" element={
         <ErrorBoundary FallbackComponent={ErrorFallback}>
         <RoleProtectedRoutes allowedRoles={["admin"]}>

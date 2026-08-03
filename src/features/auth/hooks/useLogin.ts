@@ -13,7 +13,8 @@ const useLogin = () => {
   const loginMutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
-      context.login(data.token, data.user);
+      console.log("Login successful:", data);
+      context.login(data.accessToken, data.refreshToken, data.user);
       navigate("/dashboard");
     },
     onError: (error: Error) => {

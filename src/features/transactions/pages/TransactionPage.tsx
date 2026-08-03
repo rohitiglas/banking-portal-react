@@ -1,57 +1,90 @@
 import { useTransaction } from "../hooks/useTransaction";
-import InputField from "../../../shared/components/InputField";
-import Dropdown from "../../../shared/components/Dropdown";
-import DataTable from "../../../shared/components/DataTable";
-import { columns, statusOptions } from "../constants";
-import TableSkeleton from "../../../shared/components/skeletons/TableSkeleton";
+import TransactionSummary from "../components/TransactionSummary";
+import TransactionFilters from "../components/TransactionFilters";
+import TransactionTable from "../components/TransactionTable";
+import TransactionLoading from "../components/TransactionLoading";
+import TransactionError from "../components/TransactionError";
+
+import "../css/TransactionPage.css";
 
 const TransactionPage = () => {
 
-  const { isLoading, error, filterTransactions,paginatedTransactions, searchTerm, setSearchTerm, statusFilter, setStatusFilter, page, setPage,ITEMS_PER_PAGE,refetch,navigate,prefetchTransaction,handleReviewClick,isFetchingNextPage } = useTransaction();
+    const {
+        filterTransactions,
+        searchTerm,
+        setSearchTerm,
+        statusFilter,
+        setStatusFilter,
+        navigate,
+        prefetchTransaction,
+        handleReviewClick,
+        isLoading,
+        isFetchingNextPage,
+        hasNextPage,
+        error,
+        refetch
+    } = useTransaction();
 
+    if (isLoading)
+        return <TransactionLoading />;
 
-  if (isLoading) {
-    return <TableSkeleton />;
-  }
-  if (error instanceof Error) {
+    if (error instanceof Error)
+        return (
+            <TransactionError
+                message={error.message}
+                retry={refetch}
+            />
+        );
+
     return (
-      <div>
-        <h2>
-          Failed to load transactions
 
-        </h2>
-      <p>
-        {error.message}
-      </p>
-      <button onClick={() => refetch()}>Retry</button>
-      </div>
-    )
-  }
+        <div className="transaction-page">
 
-  
+            <div className="transaction-header">
+                <div>
+                    <h1>Transactions</h1>
+                    <p>
+                        Monitor account activity and payments
+                    </p>
+                </div>
+            </div>
 
+            <TransactionSummary
+                transactions={filterTransactions}
+            />
 
-  return (
-    <div className="transaction-page">
-      <h2>Transactions</h2>
-      <InputField type="text" placeholder="Search transactions..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-      <Dropdown
-        label="Status"
-        options={statusOptions}
-        value={statusFilter}
-        onChange={(e) => setStatusFilter(e.target.value as "all" | "success" | "failed")}
-      />
-      <DataTable columns={columns} data={paginatedTransactions} message="No transactions found" rowClickHandler={(row) => navigate(`/transactions/${row.id}`)} mouseEnter={(row)=>prefetchTransaction(row?.id)} onCellClick={(row)=>handleReviewClick(row)} />
-      <div id="load-more-trigger" style={{ height: "1px" }} />
-      {isFetchingNextPage && <p>Loading more...</p>}
-      <button onClick={() => setPage(page - 1)} disabled={page === 1}>Previous</button>
-      <span>Page {page}</span>
-      <button onClick={() => setPage((prev) => prev + 1)}
-        disabled={page * ITEMS_PER_PAGE >= filterTransactions?.length!}
-      >Next</button>
+            <TransactionFilters
+                searchTerm={searchTerm}
+                statusFilter={statusFilter}
+                setSearchTerm={setSearchTerm}
+                setStatusFilter={setStatusFilter}
+            />
 
-    </div>
-  );
-}
+            <TransactionTable
+                transactions={filterTransactions}
+                navigate={navigate}
+                prefetchTransaction={prefetchTransaction}
+                handleReviewClick={handleReviewClick}
+            />
+
+            <div id="load-more-trigger" />
+
+            {isFetchingNextPage && (
+                <div className="loading-text">
+                    Loading more transactions...
+                </div>
+            )}
+
+            {!hasNextPage && (
+                <div className="end-message">
+                    🎉 You've reached the end.
+                </div>
+            )}
+
+        </div>
+
+    );
+
+};
 
 export default TransactionPage;

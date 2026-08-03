@@ -1,0 +1,273 @@
+.transaction-page {
+    padding: 24px;
+    background:#f5f7fb;
+    min-height:100vh;
+}
+
+
+
+.transaction-header {
+    margin-bottom:24px;
+}
+
+
+.transaction-header h1 {
+    margin:0;
+    color:#111827;
+}
+
+
+.transaction-header p {
+    color:#6b7280;
+}
+
+
+
+
+.transaction-summary {
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(4,1fr);
+
+    gap:20px;
+
+    margin-bottom:25px;
+
+}
+
+
+
+.summary-card {
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:14px;
+
+    box-shadow:
+    0 5px 15px rgba(0,0,0,.08);
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+}
+
+
+
+.summary-card span {
+
+    color:#6b7280;
+
+    font-size:14px;
+
+}
+
+
+
+.summary-card strong {
+
+    font-size:26px;
+
+    color:#111827;
+
+}
+
+
+
+.credit {
+
+    border-left:5px solid #16a34a;
+
+}
+
+
+
+.debit {
+
+    border-left:5px solid #dc2626;
+
+}
+
+
+
+.pending {
+
+    border-left:5px solid #f59e0b;
+
+}
+
+
+
+
+
+.transaction-filter {
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:14px;
+
+    display:flex;
+
+    gap:20px;
+
+    margin-bottom:20px;
+
+    box-shadow:
+    0 5px 15px rgba(0,0,0,.05);
+
+}
+
+
+
+.transaction-filter input,
+.transaction-filter select {
+
+    height:42px;
+
+}
+
+
+
+
+
+.table-container {
+
+    background:white;
+
+    border-radius:14px;
+
+    padding:15px;
+
+    box-shadow:
+    0 5px 15px rgba(0,0,0,.08);
+
+}
+
+
+
+
+
+.pagination {
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:20px;
+
+    margin-top:25px;
+
+}
+
+
+
+.pagination button {
+
+    padding:10px 20px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#2563eb;
+
+    color:white;
+
+    cursor:pointer;
+
+}
+
+
+
+.pagination button:disabled {
+
+    background:#cbd5e1;
+
+    cursor:not-allowed;
+
+}
+
+
+
+
+.loading-text {
+
+    text-align:center;
+
+    color:#2563eb;
+
+}
+
+
+
+
+.error-card {
+
+    margin:50px auto;
+
+    max-width:400px;
+
+    padding:30px;
+
+    background:white;
+
+    border-radius:15px;
+
+    text-align:center;
+
+    box-shadow:
+    0 5px 20px rgba(0,0,0,.1);
+
+}
+
+
+
+.load-trigger {
+
+    height:20px;
+
+}
+
+
+
+
+
+@media(max-width:900px){
+
+    .transaction-summary{
+
+        grid-template-columns:
+        repeat(2,1fr);
+
+    }
+
+}
+
+
+
+@media(max-width:600px){
+
+    .transaction-summary{
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .transaction-filter{
+
+        flex-direction:column;
+
+    }
+
+}

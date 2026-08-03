@@ -1,66 +1,45 @@
-import type { TransactionProps } from "../types/transaction.types";
-const transactions:TransactionProps[]=[
-                {
-                    id:1,
-                    amount:1000,
-                    type:"credit",
-                    accountNumber:"1234567890",
-                    createdAt:new Date().toISOString(),
-                    description:"Salary",
-                    status:"success",
-                    reviewed:false
-                },
-                {
-                    id:2,
-                    amount:500,
-                    type:"debit",
-                    accountNumber:"1234567890",
-                    createdAt:new Date().toISOString(),
-                    description:"Grocery",
-                    status:"pending",
-                    reviewed:false
-                }
-            ];
+import type { TransactionProps, TransactionResponse } from "../types/transaction.types";
+import api from "../../../services/api";
 
-export const fetchTransactions=async ():Promise<TransactionProps[]>=>{
-    return new Promise((resolve)=>{
-        setTimeout(()=>{
-            resolve(transactions);
-        },1000);
-    }); 
+
+export const fetchTransactions = async (
+    page = 1,
+    limit = 20,
+    search = "",
+    status = "all"
+): Promise<TransactionResponse> => {
+
+    const response = await api.get<TransactionResponse>(
+        "/transactions",
+        {
+            params: {
+                page,
+                limit,
+                search,
+                status
+            }
+        }
+    );
+
+    return response.data;
 };
 
 export const fetchTransactionById=async (id:string):Promise<TransactionProps | null>=>{
-    return new Promise((resolve)=>{
-        setTimeout(()=>{
-            const transactionData=transactions.find(item=>item.id.toString()===id);
-            resolve(transactionData ?? null);
-        },1000);
-    }); 
+    console.log("Fetching transaction by ID:", id);
+    const response = await api.get<TransactionProps>(`/transactions/${id}`);
+    return response.data;
 };
 
 export const markTransactionReviewed = async (_id:number):Promise<{success:boolean} | null> => {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve({ success: true });
-        }, 1000);
-    });
+    console.log("Marking transaction as reviewed with ID:", _id);
+    const response = await api.patch<{success:boolean}>(`/transactions/${_id}/review`);
+    return response.data;
 };
 
 export const fetchTransactionPage = async (pageParam: number = 1): Promise<TransactionProps[]> => {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            const pageTransactions: TransactionProps[] = Array.from({ length: 10 }).map((_, index) => ({
-                id: (pageParam - 1) * 10 + index + 1,
-                amount: Math.floor(Math.random() * 10000),
-                type: index % 2 === 0 ? "credit" : "debit",
-                accountNumber: "1234567890" + index,
-                createdAt: new Date().toISOString(),
-                description: "Transaction" + index,
-                status: "success",
-                reviewed: false,
-            }));
-            resolve(pageTransactions);
-        }, 1000);
-    });
+    const response = await fetchTransactions();
+    const startIndex = (pageParam - 1) * 10;
+    const endIndex = startIndex + 10;
+    console.log('Response from fetchTransactionPage:', response);
+    return response.data.slice(startIndex, endIndex);
 };
